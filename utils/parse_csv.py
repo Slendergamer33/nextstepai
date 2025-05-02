@@ -1,12 +1,13 @@
-import csv
+import pandas as pd
 
-def parse_csv(filepath):
+def parse_csv(file_path):
+    df = pd.read_csv(file_path)
     candidates = []
-    with open(filepath, mode="r") as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            candidates.append({
-                "name": row["name"],
-                "resume": row["resume"]
-            })
+
+    for index, row in df.iterrows():
+        candidates.append({
+            "name": row["Name"],
+            "resume": row["Resume"]
+        })
+
     return candidates

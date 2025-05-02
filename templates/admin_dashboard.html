@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - NextStepAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="dashboard">
+        <h1>Welcome, Admin</h1>
+        <p>This will eventually show candidate trends, resume stats, and skill matching data.</p>
+        <a href="{{ url_for('admin.logout') }}">Logout</a>
+    </div>
+</body>
+
+</html>

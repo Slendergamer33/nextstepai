@@ -1,25 +1,14 @@
 from flask import Flask, render_template, request
-import os
-import csv
 from utils.nlp import extract_tags
+from utils.parse_csv import parse_csv
+import os
+from admin.routes import admin_bp
 
 app = Flask(__name__)
-
-# Set up the upload folder
+app.secret_key = "nextstepai_secret"  # Needed for sessions
+app.register_blueprint(admin_bp, url_prefix="/admin")
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-# Simulating CSV parsing
-def parse_csv(file_path):
-    candidates = []
-    with open(file_path, mode='r', encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            candidates.append({
-                "name": row["name"],
-                "resume": row["resume"]
-            })
-    return candidates
 
 @app.route("/", methods=["GET", "POST"])
 def dashboard():
