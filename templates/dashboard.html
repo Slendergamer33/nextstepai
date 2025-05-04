@@ -231,25 +231,38 @@
                 <p class="section-description">Upload candidate resumes and specify your job requirements to get instant
                     AI-powered matching results.</p>
 
-                <form id="resume-form" class="resume-form">
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- Add enctype and method to the form -->
+                <form id="resume-form" class="resume-form" method="POST" action="/" enctype="multipart/form-data">
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="job-title">Job Title</label>
-                            <input type="text" id="job-title" placeholder="e.g. Senior Software Engineer" required>
+                            <input type="text" id="job-title" name="job_title"
+                                placeholder="e.g. Senior Software Engineer" required>
                             <div class="error-message" id="job-title-error"></div>
                         </div>
 
                         <div class="form-group">
                             <label for="required-skills">Required Skills (comma separated)</label>
-                            <input type="text" id="required-skills" placeholder="e.g. JavaScript, React, Node.js"
-                                required>
+                            <input type="text" id="required-skills" name="skills"
+                                placeholder="e.g. JavaScript, React, Node.js" required>
                             <div class="error-message" id="required-skills-error"></div>
                         </div>
 
                         <div class="form-group full-width">
                             <label for="resume-upload">Upload Candidate Resumes (CSV)</label>
                             <div class="file-input-container">
-                                <input type="file" id="resume-upload" accept=".csv" required>
+                                <input type="file" id="resume-upload" name="resume_file" accept=".csv" required>
                                 <label for="resume-upload" class="file-input-label">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -291,6 +304,8 @@
                 </div>
             </div>
         </section>
+
+
 
         <!-- Results Section -->
         <section id="results" class="results-section">
