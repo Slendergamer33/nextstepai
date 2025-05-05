@@ -262,7 +262,7 @@
   body {
     display: grid;
     place-items: center;
-    background: light-dark(white, black);
+    background: light-dark(white, #0A0B1A);
     min-height: 100vh;
     font-family: 'Geist', 'SF Pro Text', 'SF Pro Icons', 'AOS Icons',
       'Helvetica Neue', Helvetica, Arial, sans-serif, system-ui;
@@ -327,3 +327,5 @@
 div.tp-dfwv {
   position: fixed;
 }
+
+

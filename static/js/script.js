@@ -1,39 +1,19 @@
-import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4';
 import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
 import ScrollTrigger from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger';
 
+// Config object to store the theme state
 const config = {
-  theme: 'dark',
+  theme: 'dark', // Default theme is dark
   animate: true,
-  snap: true,
-  start: gsap.utils.random(0, 100, 1),
-  end: gsap.utils.random(900, 1000, 1),
-  scroll: true,
-  debug: false,
 };
 
-const ctrl = new Pane({
-  title: 'Config',
-  expanded: false,
-});
-
-let items;
-let scrollerScrub;
-let dimmerScrub;
-let chromaEntry;
-let chromaExit;
-
+// Function to update the theme
 const update = () => {
   document.documentElement.dataset.theme = config.theme;
-  document.documentElement.dataset.syncScrollbar = config.scroll;
   document.documentElement.dataset.animate = config.animate;
-  document.documentElement.dataset.snap = config.snap;
-  document.documentElement.dataset.debug = config.debug;
-  document.documentElement.style.setProperty('--start', config.start);
-  document.documentElement.style.setProperty('--hue', config.start);
-  document.documentElement.style.setProperty('--end', config.end);
 
   if (!config.animate) {
+    // Disable animations if not active
     chromaEntry?.scrollTrigger.disable(true, false);
     chromaExit?.scrollTrigger.disable(true, false);
     dimmerScrub?.disable(true, false);
@@ -49,60 +29,71 @@ const update = () => {
   }
 };
 
-const sync = (event) => {
-  if (
-    !document.startViewTransition ||
-    event.target.controller.view.labelElement.innerText !== 'Theme'
-  )
-    return update();
-  document.startViewTransition(() => update());
-};
+// Add the sun/moon toggle button to the HTML body using inline SVG
+const themeButton = document.createElement('button');
+themeButton.style.position = 'fixed';
+themeButton.style.top = '10px';
+themeButton.style.right = '10px';
+themeButton.style.border = 'none';
+themeButton.style.background = 'transparent';
+themeButton.style.cursor = 'pointer';
+themeButton.style.padding = '0'; // Remove padding for cleaner look
+themeButton.innerHTML = `
+  <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30">
+    <!-- Sun Icon (default) -->
+    <circle cx="12" cy="12" r="5" fill="yellow"/>
+    <g stroke="orange" stroke-width="2">
+      <line x1="12" y1="0" x2="12" y2="4" />
+      <line x1="12" y1="20" x2="12" y2="24" />
+      <line x1="4" y1="12" x2="8" y2="12" />
+      <line x1="16" y1="12" x2="20" y2="12" />
+      <line x1="3" y1="3" x2="5" y2="5" />
+      <line x1="19" y1="3" x2="17" y2="5" />
+      <line x1="3" y1="21" x2="5" y2="19" />
+      <line x1="19" y1="21" x2="17" y2="19" />
+    </g>
+  </svg>`;
 
-ctrl.addBinding(config, 'animate', {
-  label: 'Animate',
-});
-ctrl.addBinding(config, 'snap', {
-  label: 'Snap',
-});
-ctrl.addBinding(config, 'start', {
-  label: 'Hue Start',
-  min: 0,
-  max: 1000,
-  step: 1,
-});
-ctrl.addBinding(config, 'end', {
-  label: 'Hue End',
-  min: 0,
-  max: 1000,
-  step: 1,
-});
-ctrl.addBinding(config, 'scroll', {
-  label: 'Scrollbar',
-});
-ctrl.addBinding(config, 'debug', {
-  label: 'Debug',
+// Append the button to the body
+document.body.appendChild(themeButton);
+
+// Toggle between light and dark theme
+themeButton.addEventListener('click', () => {
+  // Switch the theme
+  config.theme = config.theme === 'dark' ? 'light' : 'dark';
+  // Update the button icon based on the current theme
+  const themeIcon = document.getElementById('theme-icon');
+  themeIcon.innerHTML = config.theme === 'dark' ? `
+    <circle cx="12" cy="12" r="5" fill="yellow"/>
+    <g stroke="orange" stroke-width="2">
+      <line x1="12" y1="0" x2="12" y2="4" />
+      <line x1="12" y1="20" x2="12" y2="24" />
+      <line x1="4" y1="12" x2="8" y2="12" />
+      <line x1="16" y1="12" x2="20" y2="12" />
+      <line x1="3" y1="3" x2="5" y2="5" />
+      <line x1="19" y1="3" x2="17" y2="5" />
+      <line x1="3" y1="21" x2="5" y2="19" />
+      <line x1="19" y1="21" x2="17" y2="19" />
+    </g>
+  ` : `
+    <!-- Moon Icon -->
+    <circle cx="12" cy="12" r="5" fill="gray"/>
+    <circle cx="14" cy="8" r="4" fill="white"/>
+  `;
+  update();
 });
 
-ctrl.addBinding(config, 'theme', {
-  label: 'Theme',
-  options: {
-    System: 'system',
-    Light: 'light',
-    Dark: 'dark',
-  },
-});
+let items;
+let scrollerScrub;
+let dimmerScrub;
+let chromaEntry;
+let chromaExit;
 
-ctrl.on('change', sync);
-
-// backfill the scroll functionality with GSAP
-if (
-  !CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)')
-) {
+// Backfill the scroll functionality with GSAP
+if (!CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)')) {
   gsap.registerPlugin(ScrollTrigger);
 
-  // animate the items with GSAP if there's no CSS support
   items = gsap.utils.toArray('ul li');
-
   gsap.set(items, { opacity: (i) => (i !== 0 ? 0.2 : 1) });
 
   const dimmer = gsap
@@ -129,14 +120,13 @@ if (
     scrub: 0.2,
   });
 
-  // register scrollbar changer
   const scroller = gsap.timeline().fromTo(
     document.documentElement,
     {
-      '--hue': config.start,
+      '--hue': 0,
     },
     {
-      '--hue': config.end,
+      '--hue': 1000,
       ease: 'none',
     }
   );
@@ -166,6 +156,7 @@ if (
       },
     }
   );
+
   chromaExit = gsap.fromTo(
     document.documentElement,
     {
@@ -183,5 +174,6 @@ if (
     }
   );
 }
-// run it
+
+// Initial update to apply the default theme
 update();
