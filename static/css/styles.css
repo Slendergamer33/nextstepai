@@ -7,6 +7,7 @@
   [data-debug='true'] li {
     outline: 0.05em dashed currentColor;
   }
+
   [data-debug='true'] :is(h2, li:last-of-type) {
     outline: 0.05em dashed canvasText;
   }
@@ -18,6 +19,7 @@
     syntax: '<number>';
     inherits: false;
   }
+
   @property --chroma {
     initial-value: 0;
     syntax: '<number>';
@@ -27,6 +29,7 @@
   [data-sync-scrollbar='true'] {
     scrollbar-color: oklch(var(--lightness) var(--chroma) var(--hue)) #0000;
   }
+
   @supports (animation-timeline: scroll()) and (animation-range: 0% 100%) {
     [data-sync-scrollbar='true'][data-animate='true'] {
       timeline-scope: --list;
@@ -38,6 +41,7 @@
       animation-range: entry 50% exit 50%, entry 40% entry 50%,
         exit 30% exit 40%;
       animation-timeline: --list;
+
       ul {
         view-timeline: --list;
       }
@@ -49,11 +53,13 @@
       --hue: var(--end);
     }
   }
+
   @keyframes chroma-on {
     to {
       --chroma: 0.3;
     }
   }
+
   @keyframes chroma-off {
     to {
       --chroma: 0;
@@ -68,25 +74,27 @@
     --lightness: 65%;
     --base-chroma: 0.3;
   }
+
   [data-theme='dark'] {
     --lightness: 75%;
   }
+
   [data-theme='light'] {
     --lightness: 65%;
   }
+
   @media (prefers-color-scheme: dark) {
     :root {
       --lightness: 75%;
     }
   }
+
   ul {
     --step: calc((var(--end) - var(--start)) / (var(--count) - 1));
   }
+
   li:not(:last-of-type) {
-    color: oklch(
-      var(--lightness) var(--base-chroma)
-        calc(var(--start) + (var(--step) * var(--i)))
-    );
+    color: oklch(var(--lightness) var(--base-chroma) calc(var(--start) + (var(--step) * var(--i))));
   }
 
   @supports (animation-timeline: scroll()) and (animation-range: 0% 100%) {
@@ -98,10 +106,12 @@
         &:first-of-type {
           --start-opacity: 1;
         }
+
         &:last-of-type {
           --brightness: 1;
           --end-opacity: 1;
         }
+
         animation-fill-mode: both;
         animation-timing-function: linear;
         animation-range: cover calc(50% - 1lh) calc(50% + 1lh);
@@ -113,10 +123,12 @@
       0% {
         opacity: var(--start-opacity, 0.2);
       }
+
       50% {
         opacity: 1;
         filter: brightness(var(--brightness, 1.2));
       }
+
       100% {
         opacity: var(--end-opacity, 0.2);
       }
@@ -132,6 +144,7 @@
     width: 100%;
     padding-left: 5rem;
   }
+
   section:last-of-type {
     min-height: 100vh;
     display: flex;
@@ -143,9 +156,11 @@
       --font-level: 6;
     }
   }
+
   main {
     width: 100%;
   }
+
   section:first-of-type h2 {
     position: sticky;
     top: calc(50% - 0.5lh);
@@ -155,6 +170,7 @@
     height: fit-content;
     font-weight: 600;
   }
+
   ul {
     font-weight: 600;
     padding-inline: 0;
@@ -172,10 +188,8 @@
 
   h2,
   li:last-of-type {
-    background: linear-gradient(
-      canvasText 50%,
-      color-mix(in oklch, canvas, canvasText 25%)
-    );
+    background: linear-gradient(canvasText 50%,
+        color-mix(in oklch, canvas, canvasText 25%));
     background-clip: text;
     color: #0000;
   }
@@ -201,10 +215,8 @@
     text-wrap: pretty;
     line-height: 0.8;
     margin: 0;
-    background: linear-gradient(
-      canvasText 60%,
-      color-mix(in oklch, canvas, canvasText)
-    );
+    background: linear-gradient(canvasText 60%,
+        color-mix(in oklch, canvas, canvasText));
     background-clip: text;
     color: #0000;
   }
@@ -233,23 +245,12 @@
   }
 
   :where(.fluid) {
-    --fluid-min: calc(
-      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
-    );
-    --fluid-max: calc(
-      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
-    );
-    --fluid-preferred: calc(
-      (var(--fluid-max) - var(--fluid-min)) /
-        (var(--font-width-max) - var(--font-width-min))
-    );
-    --fluid-type: clamp(
-      (var(--fluid-min) / 16) * 1rem,
-      ((var(--fluid-min) / 16) * 1rem) -
-        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-      (var(--fluid-max) / 16) * 1rem
-    );
+    --fluid-min: calc(var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0)));
+    --fluid-max: calc(var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0)));
+    --fluid-preferred: calc((var(--fluid-max) - var(--fluid-min)) / (var(--font-width-max) - var(--font-width-min)));
+    --fluid-type: clamp((var(--fluid-min) / 16) * 1rem,
+        ((var(--fluid-min) / 16) * 1rem) - (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) + (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+        (var(--fluid-max) / 16) * 1rem);
     font-size: var(--fluid-type);
   }
 
@@ -275,14 +276,10 @@
     height: 100vh;
     width: 100vw;
     position: fixed;
-    background: linear-gradient(
-          90deg,
-          var(--line) 1px,
-          transparent 1px var(--size)
-        )
-        50% 50% / var(--size) var(--size),
-      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
-        var(--size) var(--size);
+    background: linear-gradient(90deg,
+        var(--line) 1px,
+        transparent 1px var(--size)) 50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size) var(--size);
     mask: linear-gradient(-20deg, transparent 50%, white);
     top: 0;
     transform-style: flat;
@@ -327,5 +324,3 @@
 div.tp-dfwv {
   position: fixed;
 }
-
-

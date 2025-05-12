@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from utils.nlp import extract_tags
 from utils.parse_csv import parse_csv
 import os
+import requests
 from admin.routes import admin_bp
 
 app = Flask(__name__)
@@ -49,6 +50,43 @@ def dashboard():
                 return redirect(url_for("dashboard"))
 
     return render_template("dashboard.html", results=results)
+
+@app.route("/submit-form", methods=["POST"])
+def submit_form():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    company = request.form.get("company", "")  # Default to empty string if not provided
+    notes = request.form.get("notes", "")  # Default to empty string if not provided
+
+    print(f"Received name: {name}, email: {email}")
+
+
+    # Ensure required fields are provided
+    if not name or not email:
+        flash("Name and email are required.", "error")
+        return redirect(url_for("dashboard"))
+
+    try:
+        # Send form data to Express API
+        response = requests.post("http://localhost:3000/intake", json={
+            "name": name,
+            "email": email,
+            "company": company,
+            "notes": notes
+        })
+        data = response.json()
+
+        if response.ok:
+            flash("Data successfully submitted to Supabase!", "success")
+        else:
+            error_message = data.get('message', 'Unknown error')
+            flash(f"Express API error: {error_message}", "error")
+
+    except Exception as e:
+        flash(f"Failed to reach Express API: {e}", "error")
+    
+
+    return redirect(url_for("dashboard"))
 
 if __name__ == "__main__":
     app.run(debug=True)
