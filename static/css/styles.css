@@ -153,10 +153,9 @@
     justify-content: center;
   }
 
-  .nextstepai-section h2 {
+  .nextstepai-section h1 {
     --font-level: 6;
     text-align: center;
-    font-size: inherit;
     margin: 0;
     font-weight: 600;
     background: linear-gradient(canvasText 50%, color-mix(in oklch, canvas, canvasText 25%));
