@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
 @import url('https://unpkg.com/normalize.css') layer(normalize);
 
@@ -145,16 +146,23 @@
     padding-left: 5rem;
   }
 
-  section:last-of-type {
-    min-height: 100vh;
+  .nextstepai-section {
+    min-height: 60vh;
     display: flex;
     place-items: center;
     width: 100%;
     justify-content: center;
+  }
 
-    h2 {
-      --font-level: 6;
-    }
+  .nextstepai-section h2 {
+    --font-level: 6;
+    text-align: center;
+    font-size: inherit;
+    margin: 0;
+    font-weight: 600;
+    background: linear-gradient(canvasText 50%, color-mix(in oklch, canvas, canvasText 25%));
+    background-clip: text;
+    color: #0000;
   }
 
   main {
@@ -207,6 +215,7 @@
   footer {
     padding-block: 2rem;
     opacity: 0.5;
+    text-align: center;
   }
 
   h1 {
@@ -325,13 +334,14 @@
 .contact-form-section {
   max-width: 600px;
   margin: 4rem auto;
-  padding: 2.5rem;
+  padding: 3rem;
   background: light-dark(rgba(255, 255, 255, 0.08), rgba(10, 11, 26, 0.7));
   backdrop-filter: blur(10px);
   border-radius: 1rem;
   border: 1px solid light-dark(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
 }
 
 .contact-form-section:hover {
@@ -339,9 +349,9 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
-.contact-form-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+.contact-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
   text-align: center;
   background: linear-gradient(135deg, oklch(var(--lightness) var(--base-chroma) 270) 0%, oklch(var(--lightness) var(--base-chroma) 310) 100%);
   background-clip: text;
@@ -352,65 +362,74 @@
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
 }
 
 .form-group label {
-  font-weight: 500;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 1.1rem;
   margin-left: 0.25rem;
   background: linear-gradient(90deg, oklch(var(--lightness) var(--base-chroma) 270), oklch(var(--lightness) var(--base-chroma) 310));
   background-clip: text;
   color: transparent;
+  align-self: center;
 }
 
 .form-group input,
 .form-group textarea {
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.75rem;
   background: light-dark(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.2));
   border: 1px solid light-dark(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   color: inherit;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 1.2rem;
   transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: oklch(var(--lightness) var(--base-chroma) 270);
-  box-shadow: 0 0 0 2px rgba(155, 135, 245, 0.2);
+  box-shadow: 0 0 0 3px rgba(155, 135, 245, 0.25);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
   color: light-dark(rgba(0, 0, 0, 0.4), rgba(255, 255, 255, 0.4));
+  text-align: center;
 }
 
 .submit-button {
-  margin-top: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  margin-top: 1rem;
+  padding: 1rem 2rem;
   background: linear-gradient(135deg, oklch(var(--lightness) var(--base-chroma) 270) 0%, oklch(var(--lightness) var(--base-chroma) 310) 100%);
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   align-self: center;
   box-shadow: 0 4px 12px rgba(155, 135, 245, 0.3);
+  min-width: 200px;
 }
 
 .submit-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(155, 135, 245, 0.4);
 }
 
@@ -421,17 +440,23 @@
 
 /* Flash Messages Styling */
 .flash-messages {
-  margin: 1rem 0;
+  margin: 1.5rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .flash {
-  padding: 0.75rem 1rem;
-  margin: 0.5rem 0;
-  border-radius: 0.5rem;
-  font-size: 0.9rem;
+  padding: 1rem 1.5rem;
+  margin: 0.75rem 0;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
   font-weight: 500;
   text-align: center;
   animation: fadeIn 0.3s ease-out;
+  width: 100%;
+  max-width: 500px;
 }
 
 .flash.success {
@@ -454,8 +479,27 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .contact-form-section {
-    padding: 1.5rem;
+    padding: 2rem;
     margin: 2rem 1rem;
+  }
+  
+  .contact-title {
+    font-size: 2rem;
+  }
+  
+  .form-group label {
+    font-size: 1rem;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    font-size: 1.1rem;
+    padding: 0.8rem 1rem;
+  }
+  
+  .submit-button {
+    font-size: 1.1rem;
+    padding: 0.9rem 1.8rem;
   }
 }
 
