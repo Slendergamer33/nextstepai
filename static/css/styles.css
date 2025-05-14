@@ -147,11 +147,15 @@
 
   .nextstepai-section {
     min-height: 60vh;
+    padding: 0 !important;
     display: flex;
-    place-items: center;
-    width: 100%;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    width: 100%;
+    text-align: center;
   }
+
 
   .nextstepai-section h1 {
     --font-level: 6;
@@ -506,8 +510,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive adjustments */
@@ -516,21 +527,21 @@
     padding: 3rem 2rem;
     margin: 3rem 1.5rem;
   }
-  
+
   .contact-title {
     font-size: 2.8rem;
   }
-  
+
   .form-group label {
     font-size: 1.5rem;
   }
-  
+
   .form-group input,
   .form-group textarea {
     font-size: 1.4rem;
     padding: 1rem 1.2rem;
   }
-  
+
   .submit-button {
     font-size: 1.5rem;
     padding: 1.2rem 2.5rem;

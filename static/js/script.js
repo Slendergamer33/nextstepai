@@ -1,13 +1,14 @@
 import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
 import ScrollTrigger from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger';
+import lottie from 'https://cdn.skypack.dev/lottie-web@5.10.1';
 
-// Theme + Animation Configuration
+// Configuration for theme and animation toggle
 const config = {
   theme: 'dark', // Default theme
   animate: true,
 };
 
-// DOM Updates for Theme and Animation State
+// Apply theme and animation state to DOM
 const update = () => {
   document.documentElement.dataset.theme = config.theme;
   document.documentElement.dataset.animate = config.animate;
@@ -28,7 +29,7 @@ const update = () => {
   }
 };
 
-// Create Theme Toggle Button (Sun/Moon)
+// ==== Create Lottie-based Theme Toggle Button ====
 const themeButton = document.createElement('button');
 themeButton.style.cssText = `
   position: fixed;
@@ -38,40 +39,43 @@ themeButton.style.cssText = `
   background: transparent;
   cursor: pointer;
   padding: 0;
+  width: 50px;
+  height: 50px;
+  z-index: 1000;
 `;
 
-const getThemeIcon = (theme) => theme === 'dark' ? `
-  <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-    <!-- Sun Icon -->
-    <circle cx="12" cy="12" r="5" fill="yellow"/>
-    <g stroke="orange" stroke-width="2">
-      <line x1="12" y1="0" x2="12" y2="4" />
-      <line x1="12" y1="20" x2="12" y2="24" />
-      <line x1="4" y1="12" x2="8" y2="12" />
-      <line x1="16" y1="12" x2="20" y2="12" />
-      <line x1="3" y1="3" x2="5" y2="5" />
-      <line x1="19" y1="3" x2="17" y2="5" />
-      <line x1="3" y1="21" x2="5" y2="19" />
-      <line x1="19" y1="21" x2="17" y2="19" />
-    </g>
-  </svg>` : `
-  <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-    <!-- Moon Icon -->
-    <circle cx="12" cy="12" r="10" fill="gray"/>
-    <circle cx="15" cy="10" r="5" fill="white"/>
-  </svg>
-`;
-
-themeButton.innerHTML = getThemeIcon(config.theme);
+const lottieContainer = document.createElement('div');
+lottieContainer.style.width = '100%';
+lottieContainer.style.height = '100%';
+themeButton.appendChild(lottieContainer);
 document.body.appendChild(themeButton);
 
+// Load Lottie animation
+const animation = lottie.loadAnimation({
+  container: lottieContainer,
+  renderer: 'svg',
+  loop: false,
+  autoplay: false,
+  path: 'animations/theme-toggle.json' // 👈 Update this if you rename the file
+});
+
+animation.goToAndStop(0, true); // Start at dark mode frame
+
+// Toggle theme + play animation on click
 themeButton.addEventListener('click', () => {
-  config.theme = config.theme === 'dark' ? 'light' : 'dark';
-  themeButton.innerHTML = getThemeIcon(config.theme);
+  const isDark = config.theme === 'dark';
+  config.theme = isDark ? 'light' : 'dark';
+
+  if (isDark) {
+    animation.playSegments([0, 80], true); // Dark → Light
+  } else {
+    animation.playSegments([80, 0], true); // Light → Dark
+  }
+
   update();
 });
 
-// Scroll Animation Setup
+// ==== Scroll Animations Setup ====
 let items, scrollerScrub, dimmerScrub, chromaEntry, chromaExit;
 
 if (!CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)')) {
@@ -139,5 +143,5 @@ if (!CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)
   );
 }
 
-// Initial theme/animation setup
+// Initialize theme and animation state
 update();

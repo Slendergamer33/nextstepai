@@ -1,92 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NextStepAI - Revolutionizing Recruitment with AI</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" />
     <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20L8 14L12 18L22 8'/%3E%3C/svg%3E">
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 20L8 14L12 18L22 8'/%3E%3C/svg%3E" />
 </head>
 
 <body>
+    <!-- 🌙☀️ Lottie Theme Toggle -->
+    <div id="theme-toggle"
+        style="position: fixed; top: 10px; right: 10px; width: 50px; height: 50px; z-index: 1000; cursor: pointer;">
+    </div>
+
+
     <header>
         <h1 class="fluid">effortless hiring<br />awaits.</h1>
     </header>
+
     <main>
         <section class="content fluid">
             <h2><span aria-hidden="true">you can&nbsp;</span>
                 <span class="sr-only">you can ship things.</span>
             </h2>
             <ul aria-hidden="true" style="--count: 22">
-                <li style="--i: 0">streamline.</li>
-                <li style="--i: 1">automate.</li>
-                <li style="--i: 2">simplify.</li>
-                <li style="--i: 3">optimise.</li>
-                <li style="--i: 4">enhance.</li>
-                <li style="--i: 5">refine.</li>
-                <li style="--i: 6">discover.</li>
-                <li style="--i: 7">craft.</li>
-                <li style="--i: 8">deploy.</li>
-                <li style="--i: 9">engage.</li>
-                <li style="--i: 10">partner.</li>
-                <li style="--i: 11">elevate.</li>
-                <li style="--i: 12">motivate.</li>
-                <li style="--i: 13">adopt.</li>
-                <li style="--i: 14">transform.</li>
-                <li style="--i: 15">validate.</li>
-                <li style="--i: 16">maximise.</li>
-                <li style="--i: 17">guide.</li>
-                <li style="--i: 18">preview.</li>
-                <li style="--i: 19">revolutionise.</li>
-                <li style="--i: 20">expand.</li>
-                <li style="--i: 21">make it happen.</li>
+                <!-- your list items -->
             </ul>
         </section>
-        
 
         <section class="contact-form-section">
             <h2 class="contact-title">Get in Touch</h2>
             <form id="contactForm">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" name="name" id="name" required placeholder="Enter your full name">
+                    <input type="text" name="name" id="name" required placeholder="Enter your full name" />
                 </div>
-
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" required placeholder="Enter your email">
+                    <input type="email" name="email" id="email" required placeholder="Enter your email" />
                 </div>
-
                 <div class="form-group">
                     <label for="company">Company</label>
-                    <input type="text" name="company" id="company" placeholder="Enter your company name (optional)">
+                    <input type="text" name="company" id="company" placeholder="Enter your company name (optional)" />
                 </div>
-
                 <div class="form-group">
                     <label for="notes">Message</label>
                     <textarea name="notes" id="notes" rows="4" placeholder="Tell us how we can help..."></textarea>
                 </div>
-
                 <button type="submit" class="submit-button">Send Message</button>
             </form>
         </section>
     </main>
-    
+
     <section class="nextstepai-section">
-            <h1 class="fluid">nextstepai</h1>
-        </section>
+        <h1 class="fluid">nextstepai</h1>
+    </section>
+
     <footer>nextstepai &copy; 2025</footer>
 
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script type="module" src="/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+
+    <!-- Lottie Theme Toggle Script -->
+    <script>
+        const container = document.getElementById('theme-toggle');
+
+        const animation = lottie.loadAnimation({
+            container: container,
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            path: '/animations/theme-toggle.json' // ⚠️ Update to your actual path
+        });
+
+        // Initial mode
+        let isDark = true;
+        animation.goToAndStop(0, true);
+
+        container.addEventListener('click', () => {
+            if (isDark) {
+                animation.playSegments([0, 60], true); // Dark → Light
+                document.documentElement.dataset.theme = 'light';
+            } else {
+                animation.playSegments([60, 0], true); // Light → Dark
+                document.documentElement.dataset.theme = 'dark';
+            }
+            isDark = !isDark;
+        });
+    </script>
 </body>
 
 </html>
