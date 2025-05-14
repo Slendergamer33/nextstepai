@@ -145,3 +145,98 @@ if (!CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)
 
 // Initialize theme and animation state
 update();
+
+
+
+
+const ctrl = new Tweakpane.Pane({
+  title: 'Config',
+  expanded: true,
+});
+
+const showNoise = document.querySelector('#noiseshow feTurbulence');
+const distortionNoise = document.querySelector('#distortion feTurbulence');
+const distortionDisplacement = document.querySelector('#distortion feDisplacementMap');
+
+
+
+const sync = (event) => {
+  if (
+    !document.startViewTransition ||
+    event.target.controller.view.labelElement.innerText !== 'Theme'
+  )
+    return update();
+  document.startViewTransition(() => update());
+};
+
+const noise = ctrl.addFolder({ title: 'feTurbulence' });
+noise.addBinding(config.noise, 'baseFrequency', {
+  min: 0,
+  step: 0.001,
+  max: 0.1,
+  label: 'baseFrequency',
+});
+noise.addBinding(config.noise, 'numOctaves', {
+  min: 0,
+  step: 1,
+  max: 10,
+  label: 'numOctaves',
+});
+noise.addBinding(config.noise, 'seed', {
+  min: 0,
+  step: 1,
+  max: 1000,
+  label: 'seed',
+});
+noise.addBinding(config.noise, 'type', {
+  options: {
+    fractalNoise: 'fractalNoise',
+    turbulence: 'turbulence',
+  },
+  label: 'type',
+});
+noise.addBinding(config.noise, 'stitchTiles', {
+  options: {
+    noStitch: 'noStitch',
+    stitch: 'stitch',
+  },
+  label: 'stitchTiles',
+});
+
+const displacement = ctrl.addFolder({ title: 'feDisplacementMap' });
+displacement.addBinding(config.displacement, 'scale', {
+  min: 0,
+  max: 100,
+  step: 1,
+  label: 'scale',
+});
+
+const transforms = ctrl.addFolder({ title: 'transforms' });
+transforms.addBinding(config.transforms, 'scale', {
+  min: 0,
+  max: 2,
+  step: 0.1,
+  label: 'scale',
+});
+transforms.addBinding(config.transforms, 'rotation', {
+  min: -360,
+  max: 360,
+  step: 1,
+  label: 'rotation',
+});
+
+ctrl.addBinding(config, 'debug', {
+  label: 'debug',
+});
+
+ctrl.addBinding(config, 'theme', {
+  label: 'Theme',
+  options: {
+    System: 'system',
+    Light: 'light',
+    Dark: 'dark',
+  },
+});
+
+ctrl.on('change', sync);
+update();
